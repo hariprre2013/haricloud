@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Charts</title>
+</head>
+
+
+</div>
+<body>
+<link rel="stylesheet" type="text/css" href="/static/style.css"/>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+	google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable);
+       col=['Date','Value 95','Value 99']
+		var v95 = {{val95}};
+		var v99 = {{val99}};
+		var dt= '{{date}}';
+		var c=dt.replace('[','').replace(']','').split(',').map(x => x.trim());
+		var cl=[];
+		var fi=[]
+		cl.push(col)
+		for (let i=0; i<v95.length;i++){
+			cl.push([c[i].replace("&#39;","").replace("&#39;",""),v95[i],v99[i]]);
+			fi.push([c[i].replace("&#39;","").replace("&#39;",""),v95[i],v99[i]]);
+		}
+		var myJsonString = JSON.stringify(cl)
+
+
+      function drawTable() {
+      var data = google.visualization.arrayToDataTable(cl);
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+
+        table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+    }
+</script>
+    <div id="table_div"></div>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawChart);
+		col=['Date','Value 95','Value 99']
+		var v95 = {{val95}};
+		var v99 = {{val99}};
+		var dt= '{{date}}';
+		var c=dt.replace('[','').replace(']','').split(',').map(x => x.trim());
+		var cl=[];
+		var fi=[]
+		cl.push(col)
+		for (let i=0; i<v95.length;i++){
+			cl.push([c[i].replace("&#39;","").replace("&#39;",""),v95[i],v99[i]]);
+			fi.push([c[i].replace("&#39;","").replace("&#39;",""),v95[i],v99[i]]);
+		}
+		var myJsonString = JSON.stringify(cl)
+
+		function drawChart() {
+		  var data = google.visualization.arrayToDataTable(cl);
+
+		  var options = {title: 'cahrt',
+          hAxis: {title: 'date', minValue: -1, maxValue: 1},
+          vAxis: {title: 'v99 and v99', minValue: -1, maxValue: 1},
+          legend: 'none'
+		  };
+
+		  var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+		  chart.draw(data, options);
+		}
+
+ </script>
+<div>
+    <h3>reset the results</h3><a href="home.html"/>
+</div>
+
+
+<div class="container">
+  <h1>Auditing</h1>
+  <h2>Min-History: {{mh}}</h2>
+  <h2>Shots: {{sh}}</h2>
+  <h2>Risk Value of 95:{{rv_95}}</h2>
+  <h2>Risk Value of 99:{{rv_99}}</h2>
+  <form action="/chart">
+      </form>
+</div>
+</body>
+</html>
